@@ -68,7 +68,7 @@
     watch: {
       dialogOpen(val) {
         if (!val) {
-          this.selectedItem = {}
+          this.selectedItem = undefined
         }
       },
       day: {
