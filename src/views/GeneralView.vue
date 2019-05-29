@@ -50,12 +50,10 @@
         }).reverse()
       }
     },
-    firestore: {
-      items: Firebase.getDaysRef(),
-      trip: Firebase.getTripRef()
-    },
     created() {
-      Firebase.updateGeneralSpent()
+      Firebase.updateGeneralSpent();
+      this.$bind('items', Firebase.getDaysRef());
+      this.$bind('trip', Firebase.getTripRef());
     },
     methods: {
       selectItem(item) {

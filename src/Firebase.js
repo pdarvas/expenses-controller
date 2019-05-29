@@ -4,6 +4,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import dayjs from 'dayjs';
 import {firebaseConfig} from '../config';
+import {getUser} from './utils/localStorage';
 
 class Firebase {
   constructor() {
@@ -11,12 +12,12 @@ class Firebase {
     firebase.firestore().enablePersistence();
     this.database = firebase.firestore();
     this.auth = firebase.auth();
-    this.user = 'user1'
+    this.user = getUser()
   }
 
   async createDayInfo(day) {
     const dayRef = this.database.collection('trips')
-      .doc('user1')
+      .doc(this.user)
       .collection('days')
       .doc(day);
 
@@ -29,7 +30,7 @@ class Firebase {
 
   async addDescriptionToDay(description, day) {
     const dayRef = this.database.collection('trips')
-      .doc('user1')
+      .doc(this.user)
       .collection('days')
       .doc(day);
 
@@ -54,7 +55,7 @@ class Firebase {
 
   getExpensesInDayRef(day) {
     return this.database.collection('trips')
-      .doc('user1')
+      .doc(this.user)
       .collection('days')
       .doc(day)
       .collection('expenses')
@@ -63,25 +64,25 @@ class Firebase {
 
   getDayInfoRef(day) {
     return this.database.collection('trips')
-      .doc('user1')
+      .doc(this.user)
       .collection('days')
       .doc(day)
   }
 
   getDaysRef() {
     return this.database.collection('trips')
-      .doc('user1')
+      .doc(this.user)
       .collection('days')
   }
 
   getTripRef() {
     return this.database.collection('trips')
-      .doc('user1')
+      .doc(this.user)
   }
 
   addExpenseToDay(expense, day) {
     const dayRef = this.database.collection('trips')
-      .doc('user1')
+      .doc(this.user)
       .collection('days')
       .doc(day);
 
@@ -96,7 +97,7 @@ class Firebase {
 
   deleteExpenseFromDay(expense, day) {
     const dayRef = this.database.collection('trips')
-      .doc('user1')
+      .doc(this.user)
       .collection('days')
       .doc(day);
 
@@ -109,7 +110,7 @@ class Firebase {
 
   async updateDaySpent(day) {
     const dayRef = this.database.collection('trips')
-      .doc('user1')
+      .doc(this.user)
       .collection('days')
       .doc(day);
 
@@ -122,7 +123,7 @@ class Firebase {
 
   async updateGeneralSpent() {
     const tripRef = this.database.collection('trips')
-      .doc('user1');
+      .doc(this.user);
 
     const days = await tripRef.collection('days').get();
 
@@ -137,6 +138,10 @@ class Firebase {
     const trip = (await ref.get()).data();
 
     ref.update({total: Number((Number(trip.total) + Number(total)).toFixed(2))});
+  }
+
+  setUser(name) {
+    this.user = name
   }
 }
 
