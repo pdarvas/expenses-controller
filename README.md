@@ -1,5 +1,7 @@
 # expenses-controller
 
+This is a small project I did to learn Vue and to keep better track of my expenses as I travel.
+
 ## Project setup
 ```
 yarn install

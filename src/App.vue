@@ -1,38 +1,39 @@
 <template>
   <v-app>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        flat
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-      </v-btn>
-    </v-toolbar>
-
-    <v-content>
-      <HelloWorld/>
-    </v-content>
+    <component :is="currentView" />
+    <TheNavigationBar :bottom-nav.sync="bottomNav"/>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import TheNavigationBar from './components/TheNavigationBar'
+import DayView from './views/DayView';
+import GeneralView from './views/GeneralView';
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    DayView,
+    TheNavigationBar,
+    GeneralView
   },
   data () {
     return {
-      //
+      bottomNav: 'today'
+    }
+  },
+  computed: {
+    currentView() {
+      return this.bottomNav === 'today' ? DayView : GeneralView
     }
   }
 }
 </script>
+
+<style>
+  .view-container {
+    height: calc(100vh - 56px);
+    position: relative;
+  }
+</style>
